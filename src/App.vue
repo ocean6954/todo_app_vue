@@ -14,6 +14,7 @@ function addTodo(text: string) {
     id: nextId++,
     text,
     completed: false,
+    isEdit: false,
     createdAt: new Date(),
   });
 }
@@ -21,12 +22,23 @@ function addTodo(text: string) {
 function removeTodo(index: number) {
   todos.value.splice(index, 1);
 }
+
+function toEditMode(index: number) {
+  const todo = todos.value[index];
+  if (todo) {
+    todo.isEdit = !todo.isEdit;
+  }
+}
 </script>
 
 <template>
   <div class="app">
     <h1>Todo App</h1>
     <TodoInput @add-todo="addTodo" />
-    <TodoList :todos="todos" @remove-todo="removeTodo" />
+    <TodoList
+      :todos="todos"
+      @remove-todo="removeTodo"
+      @edit-todo="toEditMode"
+    />
   </div>
 </template>
