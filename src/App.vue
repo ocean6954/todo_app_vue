@@ -1,30 +1,32 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from "vue";
+import TodoInput from "./components/TodoInput.vue";
+import TodoList from "./components/TodoList.vue";
+import type { Todo } from "./types/todo";
+
+// Todoリスト
+const todos = ref<Todo[]>([]);
+let nextId = 1;
+
+// Todoを追加
+function addTodo(text: string) {
+  todos.value.push({
+    id: nextId++,
+    text,
+    completed: false,
+    createdAt: new Date(),
+  });
+}
+
+function removeTodo(index: number) {
+  todos.value.splice(index, 1);
+}
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="app">
+    <h1>Todo App</h1>
+    <TodoInput @add-todo="addTodo" />
+    <TodoList :todos="todos" @remove-todo="removeTodo" />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
