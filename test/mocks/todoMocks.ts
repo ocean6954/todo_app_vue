@@ -71,16 +71,8 @@ export const mockFilterCriteria: FilterCriteria[] = [
   "completed",
 ];
 
-export const mockDefaultFilter: FilterCriteria = "all";
-export const mockActiveFilter: FilterCriteria = "active";
-export const mockCompletedFilter: FilterCriteria = "completed";
-
 // ソート条件のモックデータ
 export const mockSortCriteria: SortCriteria[] = ["newest", "oldest", "random"];
-
-export const mockDefaultSort: SortCriteria = "oldest";
-export const mockNewestSort: SortCriteria = "newest";
-export const mockRandomSort: SortCriteria = "random";
 
 // イベントオブジェクトのモック
 export const mockInputEvent = (value: string) => ({
