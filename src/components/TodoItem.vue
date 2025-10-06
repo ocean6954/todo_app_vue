@@ -68,7 +68,7 @@ const emitForComplete = () => {
       <button @click="emit('remove-todo', props.todo.id)" class="delete-btn">
         Delete
       </button>
-      <span>{{ props.todo.id }}</span>
+      <!-- <span>{{ props.todo.id }}</span> -->
     </div>
   </li>
 </template>
@@ -83,7 +83,7 @@ const emitForComplete = () => {
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   background-color: #f9f9f9;
-  min-height: 50px; /* レイアウト崩れ防止 */
+  min-height: 50px;
 }
 
 .complete {
