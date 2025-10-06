@@ -5,3 +5,6 @@ export interface Todo {
   createdAt: Date;
   isEdit: boolean;
 }
+
+export type FilterCriteria = "all" | "active" | "completed";
+export type SortCriteria = "newest" | "oldest" | "random";
