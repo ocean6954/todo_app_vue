@@ -5,6 +5,7 @@ import TodoList from "./components/TodoList.vue";
 import type { Todo } from "./types/todo";
 import { sampleTodos } from "./data/sample.ts";
 import FilterButton from "./components/FilterButton.vue";
+import SortButton from "./components/SortButton.vue";
 import "./styles/App.css";
 
 // Todoリスト
@@ -12,13 +13,12 @@ const todos = ref<Todo[]>(sampleTodos);
 
 // フィルター状態
 const currentFilter = ref<"all" | "active" | "completed">("all");
-
-let nextId = 1;
+const currentSort = ref<"newest" | "oldest" | "random">("oldest");
 
 // Todoを追加
 function addTodo(text: string) {
   todos.value.push({
-    id: nextId++,
+    id: todos.value.length + 1,
     text,
     isCompleted: false,
     isEdit: false,
@@ -26,12 +26,15 @@ function addTodo(text: string) {
   });
 }
 
-function removeTodo(index: number) {
-  todos.value.splice(index, 1);
+function removeTodo(id: number) {
+  const index = todos.value.findIndex((todo) => todo.id === id);
+  if (index !== -1) {
+    todos.value.splice(index, 1);
+  }
 }
 
-function handleEdit(index: number, text: string) {
-  const todo = todos.value[index];
+function handleEdit(id: number, text: string) {
+  const todo = todos.value.find((todo) => todo.id === id);
   if (!todo) return;
 
   if (todo.isEdit) {
@@ -49,8 +52,8 @@ function handleEdit(index: number, text: string) {
   }
 }
 
-function toggleComplete(index: number) {
-  const todo = todos.value[index];
+function toggleComplete(id: number) {
+  const todo = todos.value.find((todo) => todo.id === id);
   if (todo) {
     todo.isCompleted = !todo.isCompleted;
   }
@@ -68,9 +71,25 @@ const filteredTodos = computed(() => {
   }
 });
 
+const sortedTodos = computed(() => {
+  return [...filteredTodos.value].sort((a, b) => {
+    if (currentSort.value === "newest") {
+      return b.createdAt.getTime() - a.createdAt.getTime();
+    } else if (currentSort.value === "oldest") {
+      return a.createdAt.getTime() - b.createdAt.getTime();
+    } else {
+      return Math.random() - 0.5;
+    }
+  });
+});
+
 // フィルター変更関数
 const changeFilter = (filter: "all" | "active" | "completed") => {
   currentFilter.value = filter;
+};
+
+const changeSort = (sort: "newest" | "oldest" | "random") => {
+  currentSort.value = sort;
 };
 </script>
 
@@ -82,13 +101,12 @@ const changeFilter = (filter: "all" | "active" | "completed") => {
       :current-filter="currentFilter"
       @change-filter="changeFilter"
     />
+    <SortButton :current-sort="currentSort" @change-sort="changeSort" />
     <TodoList
-      :todos="filteredTodos"
+      :todos="sortedTodos"
       @remove-todo="removeTodo"
       @edit-todo="handleEdit"
       @complete-todo="toggleComplete"
     />
   </div>
 </template>
-
-<!-- スタイルは外部ファイル App.css に移動 -->

@@ -5,25 +5,24 @@ import "../styles/TodoItem.css";
 
 const props = defineProps<{
   todo: Todo;
-  index: number;
   isEdit: boolean;
   isCompleted: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: "remove-todo", index: number): void;
-  (e: "edit-todo", index: number, text: string): void;
-  (e: "complete-todo", index: number): void;
+  (e: "remove-todo", id: number): void;
+  (e: "edit-todo", id: number, text: string): void;
+  (e: "complete-todo", id: number): void;
 }>();
 
 const editedText = ref(props.todo.text);
-function handleEdit() {
-  emit("edit-todo", props.index, editedText.value);
-}
+const handleEdit = () => {
+  emit("edit-todo", props.todo.id, editedText.value);
+};
 
-function emitForComplete(index: number) {
-  emit("complete-todo", index);
-}
+const emitForComplete = () => {
+  emit("complete-todo", props.todo.id);
+};
 </script>
 
 <template>
@@ -31,7 +30,7 @@ function emitForComplete(index: number) {
     <input
       type="checkbox"
       :checked="props.isCompleted"
-      @change="emitForComplete(props.index)"
+      @change="emitForComplete"
     />
 
     <!-- 編集中の場合 -->
@@ -65,11 +64,10 @@ function emitForComplete(index: number) {
       <button v-if="props.isEdit" @click="handleEdit" class="save-btn">
         Save
       </button>
-      <button @click="emit('remove-todo', index)" class="delete-btn">
+      <button @click="emit('remove-todo', props.todo.id)" class="delete-btn">
         Delete
       </button>
+      <!-- <span>(デバッグ用: {{ props.todo.id }})</span> -->
     </div>
   </li>
 </template>
-
-<!-- スタイルは外部ファイル TodoItem.css に移動 -->
