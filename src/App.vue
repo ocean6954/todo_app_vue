@@ -23,10 +23,22 @@ function removeTodo(index: number) {
   todos.value.splice(index, 1);
 }
 
-function toEditMode(index: number) {
+function handleEdit(index: number, text: string) {
   const todo = todos.value[index];
-  if (todo) {
-    todo.isEdit = !todo.isEdit;
+  if (!todo) return;
+
+  if (todo.isEdit) {
+    if (text.trim() === "") {
+      // 空文字の場合は削除
+      alert("タスクは１文字以上で入力してください");
+      return;
+    }
+    // Save
+    todo.text = text;
+    todo.isEdit = false;
+  } else {
+    // Edit
+    todo.isEdit = true;
   }
 }
 </script>
@@ -38,7 +50,7 @@ function toEditMode(index: number) {
     <TodoList
       :todos="todos"
       @remove-todo="removeTodo"
-      @edit-todo="toEditMode"
+      @edit-todo="handleEdit"
     />
   </div>
 </template>

@@ -9,8 +9,12 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "remove-todo", index: number): void;
-  (e: "edit-todo", index: number): void;
+  (e: "edit-todo", index: number, text: string): void;
 }>();
+
+const emitForEdit = (index: number, text: string) => {
+  emit("edit-todo", index, text);
+};
 </script>
 
 <template>
@@ -22,7 +26,7 @@ const emit = defineEmits<{
       :index="index"
       :isEdit="todo.isEdit"
       @remove-todo="emit('remove-todo', $event)"
-      @edit-todo="emit('edit-todo', $event)"
+      @edit-todo="emitForEdit"
     />
   </ul>
 </template>

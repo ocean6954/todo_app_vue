@@ -3,15 +3,18 @@ import { ref, defineEmits } from "vue";
 // 入力内容
 const newTodo = ref("");
 const emit = defineEmits<{
-  (e: "add-todo", todo: string): void;
+  (e: "add-todo", text: string): void;
 }>();
 
 // Todoを追加
 function submit() {
-  if (newTodo.value.trim() !== "") {
-    emit("add-todo", newTodo.value.trim());
-    newTodo.value = "";
+  const text = newTodo.value.trim();
+  if (text === "") {
+    alert("タスクは１文字以上で入力してください");
+    return;
   }
+  emit("add-todo", text);
+  newTodo.value = "";
 }
 </script>
 
