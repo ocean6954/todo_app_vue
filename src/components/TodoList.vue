@@ -10,7 +10,16 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "remove-todo", index: number): void;
   (e: "edit-todo", index: number, text: string): void;
+  (e: "complete-todo", index: number): void;
 }>();
+
+const emitForRemove = (index: number) => {
+  emit("remove-todo", index);
+};
+
+const emitForComplete = (index: number) => {
+  emit("complete-todo", index);
+};
 
 const emitForEdit = (index: number, text: string) => {
   emit("edit-todo", index, text);
@@ -25,8 +34,10 @@ const emitForEdit = (index: number, text: string) => {
       :todo="todo"
       :index="index"
       :isEdit="todo.isEdit"
-      @remove-todo="emit('remove-todo', $event)"
+      :isCompleted="todo.isCompleted"
+      @remove-todo="emitForRemove"
       @edit-todo="emitForEdit"
+      @complete-todo="emitForComplete"
     />
   </ul>
 </template>

@@ -3,9 +3,11 @@ import { ref } from "vue";
 import TodoInput from "./components/TodoInput.vue";
 import TodoList from "./components/TodoList.vue";
 import type { Todo } from "./types/todo";
+import { sampleTodos } from "./data/sample.ts";
 
 // Todoリスト
-const todos = ref<Todo[]>([]);
+const todos = ref<Todo[]>(sampleTodos);
+
 let nextId = 1;
 
 // Todoを追加
@@ -13,7 +15,7 @@ function addTodo(text: string) {
   todos.value.push({
     id: nextId++,
     text,
-    completed: false,
+    isCompleted: false,
     isEdit: false,
     createdAt: new Date(),
   });
@@ -41,6 +43,13 @@ function handleEdit(index: number, text: string) {
     todo.isEdit = true;
   }
 }
+
+function toggleComplete(index: number) {
+  const todo = todos.value[index];
+  if (todo) {
+    todo.isCompleted = !todo.isCompleted;
+  }
+}
 </script>
 
 <template>
@@ -51,6 +60,7 @@ function handleEdit(index: number, text: string) {
       :todos="todos"
       @remove-todo="removeTodo"
       @edit-todo="handleEdit"
+      @complete-todo="toggleComplete"
     />
   </div>
 </template>
