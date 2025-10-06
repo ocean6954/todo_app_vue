@@ -6,7 +6,6 @@ import type { Todo } from "./types/todo";
 import { sampleTodos } from "./data/sample.ts";
 import FilterButton from "./components/FilterButton.vue";
 import SortButton from "./components/SortButton.vue";
-import "./styles/App.css";
 
 // Todoリスト
 const todos = ref<Todo[]>(sampleTodos);
@@ -114,3 +113,21 @@ const changeSort = (sort: "newest" | "oldest" | "random") => {
     />
   </div>
 </template>
+
+<style scoped>
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* コントロールコンテナ（フィルターとソートを横並び） */
+.controls-container {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+</style>

@@ -1,36 +1,58 @@
 <script setup lang="ts">
-import "../styles/ToggleLists.css";
-
-// 親から現在のフィルター状態を受け取る
+import { ref, watch } from "vue";
+import type { FilterCriteria } from "../types/todo";
 const props = defineProps<{
-  currentFilter: "all" | "active" | "completed";
+  currentFilter: FilterCriteria;
 }>();
 
 const emit = defineEmits<{
-  (e: "change-filter", criteria: "all" | "active" | "completed"): void;
+  (e: "change-filter", criteria: FilterCriteria): void;
 }>();
 
-// 値が変更された時に親に通知（refは不要！）
-const handleFilterChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
-  const value = target.value as "all" | "active" | "completed";
-  emit("change-filter", value);
-};
+const filterValue = ref<FilterCriteria>(props.currentFilter);
+
+watch(filterValue, (newValue) => {
+  emit("change-filter", newValue);
+});
 </script>
 
 <template>
-  <!-- フィルタードロップダウン -->
   <div class="filter-section">
     <label for="filter-select">表示フィルター:</label>
-    <select
-      id="filter-select"
-      :value="props.currentFilter"
-      @change="handleFilterChange"
-      class="filter-dropdown"
-    >
+    <select id="filter-select" v-model="filterValue" class="filter-dropdown">
       <option value="all">全て</option>
       <option value="active">未完了</option>
       <option value="completed">完了済み</option>
     </select>
   </div>
 </template>
+
+<style scoped>
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-dropdown {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 13px;
+  cursor: pointer;
+  color: #666;
+}
+
+.filter-dropdown:focus {
+  outline: none;
+  border-color: #999;
+  box-shadow: none;
+}
+
+label {
+  font-weight: normal;
+  color: #666;
+  font-size: 13px;
+}
+</style>

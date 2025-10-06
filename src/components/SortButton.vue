@@ -1,34 +1,58 @@
 <script setup lang="ts">
-import "../styles/App.css";
-
+import { ref, watch } from "vue";
+import type { SortCriteria } from "../types/todo";
 const props = defineProps<{
-  currentSort: "newest" | "oldest" | "random";
+  currentSort: SortCriteria;
 }>();
 
 const emit = defineEmits<{
-  (e: "change-sort", criteria: "newest" | "oldest" | "random"): void;
+  (e: "change-sort", criteria: SortCriteria): void;
 }>();
 
-const handleSortChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
-  const value = target.value as "newest" | "oldest" | "random";
-  emit("change-sort", value);
-};
+const sortValue = ref<SortCriteria>(props.currentSort);
+
+watch(sortValue, (newValue) => {
+  emit("change-sort", newValue);
+});
 </script>
 
 <template>
-  <!-- フィルタードロップダウン -->
   <div class="sort-section">
     <label for="sort-select">ソート:</label>
-    <select
-      id="sort-select"
-      @change="handleSortChange"
-      :value="props.currentSort"
-      class="sort-dropdown"
-    >
+    <select id="sort-select" v-model="sortValue" class="sort-dropdown">
       <option value="oldest">古い順</option>
       <option value="newest">新しい順</option>
       <option value="random">ランダム</option>
     </select>
   </div>
 </template>
+
+<style scoped>
+.sort-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-dropdown {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 13px;
+  cursor: pointer;
+  color: #666;
+}
+
+.sort-dropdown:focus {
+  outline: none;
+  border-color: #999;
+  box-shadow: none;
+}
+
+label {
+  font-weight: normal;
+  color: #666;
+  font-size: 13px;
+}
+</style>
