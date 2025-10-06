@@ -97,11 +97,15 @@ const changeSort = (sort: "newest" | "oldest" | "random") => {
   <div class="app">
     <h1>Todo App</h1>
     <TodoInput @add-todo="addTodo" />
-    <FilterButton
-      :current-filter="currentFilter"
-      @change-filter="changeFilter"
-    />
-    <SortButton :current-sort="currentSort" @change-sort="changeSort" />
+
+    <!-- フィルターとソートを横並びに -->
+    <div class="controls-container">
+      <FilterButton
+        :current-filter="currentFilter"
+        @change-filter="changeFilter"
+      />
+      <SortButton :current-sort="currentSort" @change-sort="changeSort" />
+    </div>
     <TodoList
       :todos="sortedTodos"
       @remove-todo="removeTodo"

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import "../styles/App.css";
+
 const props = defineProps<{
   currentSort: "newest" | "oldest" | "random";
 }>();

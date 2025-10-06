@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, defineEmits } from "vue";
+import "../styles/TodoInput.css";
 // 入力内容
 const newTodo = ref("");
 const emit = defineEmits<{
@@ -25,17 +26,4 @@ function submit() {
   </div>
 </template>
 
-<style scoped>
-.todo-input {
-  display: flex;
-  gap: 8px;
-}
-button {
-  padding: 4px 12px;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-</style>
+<!-- スタイルは外部ファイル TodoInput.css に移動 -->

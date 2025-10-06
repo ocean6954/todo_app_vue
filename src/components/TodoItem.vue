@@ -61,13 +61,14 @@ const emitForComplete = () => {
       >
         Edit
       </button>
-      <button v-if="props.isEdit" @click="handleEdit" class="save-btn">
+      <button v-else-if="props.isEdit" @click="handleEdit" class="save-btn">
         Save
       </button>
+      <button v-else class="edit-btn disabled" disabled>Edit</button>
+
       <button @click="emit('remove-todo', props.todo.id)" class="delete-btn">
         Delete
       </button>
-      <!-- <span>(デバッグ用: {{ props.todo.id }})</span> -->
     </div>
   </li>
 </template>
