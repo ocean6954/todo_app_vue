@@ -1,29 +1,27 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { Todo } from "../types/todo";
-import "../styles/TodoItem.css";
 
 const props = defineProps<{
   todo: Todo;
-  index: number;
   isEdit: boolean;
   isCompleted: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: "remove-todo", index: number): void;
-  (e: "edit-todo", index: number, text: string): void;
-  (e: "complete-todo", index: number): void;
+  (e: "remove-todo", id: number): void;
+  (e: "edit-todo", id: number, text: string): void;
+  (e: "complete-todo", id: number): void;
 }>();
 
 const editedText = ref(props.todo.text);
-function handleEdit() {
-  emit("edit-todo", props.index, editedText.value);
-}
+const handleEdit = () => {
+  emit("edit-todo", props.todo.id, editedText.value);
+};
 
-function emitForComplete(index: number) {
-  emit("complete-todo", index);
-}
+const emitForComplete = () => {
+  emit("complete-todo", props.todo.id);
+};
 </script>
 
 <template>
@@ -31,7 +29,7 @@ function emitForComplete(index: number) {
     <input
       type="checkbox"
       :checked="props.isCompleted"
-      @change="emitForComplete(props.index)"
+      @change="emitForComplete"
     />
 
     <!-- 編集中の場合 -->
@@ -62,14 +60,111 @@ function emitForComplete(index: number) {
       >
         Edit
       </button>
-      <button v-if="props.isEdit" @click="handleEdit" class="save-btn">
+      <button v-else-if="props.isEdit" @click="handleEdit" class="save-btn">
         Save
       </button>
-      <button @click="emit('remove-todo', index)" class="delete-btn">
+      <button v-else class="edit-btn disabled" disabled>Edit</button>
+
+      <button @click="emit('remove-todo', props.todo.id)" class="delete-btn">
         Delete
       </button>
+      <!-- <span>{{ props.todo.id }}</span> -->
     </div>
   </li>
 </template>
 
-<!-- スタイルは外部ファイル TodoItem.css に移動 -->
+<style scoped>
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  min-height: 50px;
+}
+
+.complete {
+  text-decoration: line-through;
+  color: #888;
+  opacity: 0.7;
+  flex: 1; /* テキスト部分を伸縮可能に */
+  text-align: center; /* 中央寄せに設定 */
+}
+
+.normal {
+  color: #333;
+  font-weight: normal;
+  flex: 1; /* テキスト部分を伸縮可能に */
+}
+
+.edit-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.button-group {
+  display: flex;
+  gap: 6px;
+  margin-left: auto; /* ボタンを右寄せ */
+  flex-shrink: 0; /* ボタンのサイズを固定 */
+}
+
+.edit-btn,
+.save-btn,
+.delete-btn {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 11px;
+  white-space: nowrap; /* テキストの折り返しを防止 */
+  min-width: 50px; /* 最小幅を設定 */
+}
+
+.edit-btn:hover:not(:disabled) {
+  background: #e6f3ff;
+  border-color: #007acc;
+}
+
+.edit-btn.disabled {
+  background: #f5f5f5;
+  color: #ccc;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+.save-btn:hover {
+  background: #45a049;
+}
+
+.delete-btn:hover {
+  background: #ffebee;
+  border-color: #f44336;
+  color: #f44336;
+}
+
+input[type="checkbox"] {
+  margin: 0;
+  transform: scale(1.2);
+  flex-shrink: 0; /* チェックボックスのサイズを固定 */
+}
+</style>

@@ -8,31 +8,30 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "remove-todo", index: number): void;
-  (e: "edit-todo", index: number, text: string): void;
-  (e: "complete-todo", index: number): void;
+  (e: "remove-todo", id: number): void;
+  (e: "edit-todo", id: number, text: string): void;
+  (e: "complete-todo", id: number): void;
 }>();
 
-const emitForRemove = (index: number) => {
-  emit("remove-todo", index);
+const emitForRemove = (id: number) => {
+  emit("remove-todo", id);
 };
 
-const emitForComplete = (index: number) => {
-  emit("complete-todo", index);
+const emitForComplete = (id: number) => {
+  emit("complete-todo", id);
 };
 
-const emitForEdit = (index: number, text: string) => {
-  emit("edit-todo", index, text);
+const emitForEdit = (id: number, text: string) => {
+  emit("edit-todo", id, text);
 };
 </script>
 
 <template>
   <ul>
     <TodoItem
-      v-for="(todo, index) in props.todos"
+      v-for="todo in props.todos"
       :key="todo.id"
       :todo="todo"
-      :index="index"
       :isEdit="todo.isEdit"
       :isCompleted="todo.isCompleted"
       @remove-todo="emitForRemove"
