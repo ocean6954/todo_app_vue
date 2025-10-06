@@ -1,0 +1,76 @@
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+.complete {
+  text-decoration: line-through;
+  color: #888;
+  opacity: 0.7;
+}
+
+.normal {
+  color: #333;
+  font-weight: normal;
+}
+
+.edit-input {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.save-btn,
+.delete-btn {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.edit-btn:hover {
+  background: #e6f3ff;
+  border-color: #007acc;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+.save-btn:hover {
+  background: #45a049;
+}
+
+.delete-btn:hover {
+  background: #ffebee;
+  border-color: #f44336;
+  color: #f44336;
+}
+
+input[type="checkbox"] {
+  margin: 0;
+  transform: scale(1.2);
+}
