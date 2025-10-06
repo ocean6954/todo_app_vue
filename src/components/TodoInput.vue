@@ -30,4 +30,12 @@ function submit() {
   display: flex;
   gap: 8px;
 }
+button {
+  padding: 4px 12px;
+  background-color: #42b983;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 </style>
