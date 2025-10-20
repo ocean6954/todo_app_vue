@@ -114,14 +114,6 @@ export const mockTodoListProps = {
   todos: mockTodoList,
 };
 
-export const mockFilterButtonProps = {
-  currentFilter: mockDefaultFilter,
-};
-
-export const mockSortButtonProps = {
-  currentSort: mockDefaultSort,
-};
-
 // Emit関数のモック
 export const mockEmit = vi.fn();
 
