@@ -6,7 +6,7 @@ import {
   mockTodo,
   mockCompletedTodo,
   createTodoItemProps,
-} from "./mocks/todoMocks";
+} from "../../test/mocks/todoMocks";
 
 describe("TodoItem", () => {
   // テスト1: 通常状態のTodoItemが正しくレンダリングされることを確認

@@ -3,7 +3,7 @@ import SortButton from "../src/components/SortButton.vue";
 
 import { mount } from "@vue/test-utils";
 import { beforeEach, describe, it, expect } from "vitest";
-import { SortCriteria } from "../src/types/todo";
+import { SortCriteria } from "../types/todo";
 
 describe("SortButton", () => {
   let wrapper: any;

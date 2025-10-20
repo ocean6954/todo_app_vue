@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import FilterButton from "../src/components/FilterButton.vue";
-import { FilterCriteria } from "../src/types/todo";
+import { FilterCriteria } from "../../src/types/todo";
 
 describe("FilterButton", () => {
   let wrapper: any;
