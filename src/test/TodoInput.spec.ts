@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import TodoInput from "../components/TodoInput.vue";
 
@@ -35,5 +35,18 @@ describe("TodoInput", () => {
     expect(wrapper.emitted("add-todo")![0]).toEqual(["テストタスク"]);
 
     expect((input.element as HTMLInputElement).value).toBe("");
+  });
+
+  //テスト4: 空文字のバリデーションが正しく反映される
+  it("空文字のバリデーション", async () => {
+    const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {});
+    const wrapper = mount(TodoInput);
+    const button = wrapper.find("button");
+    await button.trigger("click");
+    expect(wrapper.emitted("add-todo")).toBeFalsy();
+    expect(alertMock).toHaveBeenCalledWith(
+      "タスクは１文字以上で入力してください"
+    );
+    alertMock.mockRestore();
   });
 });

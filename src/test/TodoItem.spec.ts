@@ -37,21 +37,19 @@ describe("TodoItem", () => {
     const props = createTodoItemProps(mockCompletedTodo);
     const wrapper = mount(TodoItem, { props });
 
-    // チェックボックスがチェックされている
     const checkbox = wrapper.find("input[type='checkbox']");
     expect((checkbox.element as HTMLInputElement).checked).toBe(true);
 
-    // 完了したタスクのテキストにcompleteクラスが適用されている
     const completeSpan = wrapper.find("span.complete");
     expect(completeSpan.exists()).toBe(true);
     expect(completeSpan.text()).toBe("完了済みタスク");
 
-    // Editボタンが無効化されている
     const editButton = wrapper.find("button.edit-btn.disabled");
     expect(editButton.exists()).toBe(true);
     expect((editButton.element as HTMLButtonElement).disabled).toBe(true);
   });
 
+  // テスト3: 編集状態のTodoItemが正しくレンダリングされることを確認
   it("編集状態で正しくレンダリングされる", () => {
     const props = {
       todo: mockTodo,
@@ -61,20 +59,59 @@ describe("TodoItem", () => {
 
     const wrapper = mount(TodoItem, { props });
 
-    // 編集用input要素が存在することを確認
     const editInput = wrapper.find("input.edit-input");
     expect(editInput.exists()).toBe(true);
 
-    // 編集用inputの初期値がtodoのtextと同じことを確認
     expect((editInput.element as HTMLInputElement).value).toBe("テストタスク");
 
-    // Saveボタンが表示されることを確認
     const saveButton = wrapper.find("button.save-btn");
     expect(saveButton.exists()).toBe(true);
     expect(saveButton.text()).toBe("Save");
 
-    // 通常のspan要素が非表示であることを確認
     expect(wrapper.find("span.normal").exists()).toBe(false);
     expect(wrapper.find("span.complete").exists()).toBe(false);
+  });
+
+  // テスト4: Todo削除イベントが呼び出される
+  it("Deleteボタンクリック時にremove-todoイベントが発火される", async () => {
+    const props = createTodoItemProps(mockTodo);
+    const wrapper = mount(TodoItem, { props });
+
+    const deleteButton = wrapper.find("button.delete-btn");
+    await deleteButton.trigger("click");
+
+    expect(wrapper.emitted("remove-todo")).toBeTruthy();
+    expect(wrapper.emitted("remove-todo")![0]).toEqual([mockTodo.id]);
+  });
+
+  // テスト5: Todo編集イベントが呼び出される
+  it("Saveボタンクリック時にedit-todoイベントが発火される", async () => {
+    const props = {
+      todo: mockTodo,
+      isEdit: true,
+      isCompleted: false,
+    };
+    const wrapper = mount(TodoItem, { props });
+
+    const editButton = wrapper.find("button.save-btn");
+    await editButton.trigger("click");
+
+    expect(wrapper.emitted("edit-todo")).toBeTruthy();
+    expect(wrapper.emitted("edit-todo")![0]).toEqual([
+      mockTodo.id,
+      props.todo.text,
+    ]);
+  });
+
+  // テスト6: チェックボックス変更時にイベントが呼び出される
+  it("チェックボックス変更時にcomplete-todoイベントが発火される", async () => {
+    const props = createTodoItemProps(mockTodo);
+    const wrapper = mount(TodoItem, { props });
+
+    const checkBox = wrapper.find("input[type='checkbox']");
+    await checkBox.trigger("change");
+
+    expect(wrapper.emitted("complete-todo")).toBeTruthy();
+    expect(wrapper.emitted("complete-todo")![0]).toEqual([mockTodo.id]);
   });
 });
