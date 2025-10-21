@@ -1,12 +1,12 @@
 // TodoItemコンポーネントのテスト
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import TodoItem from "../src/components/TodoItem.vue";
+import TodoItem from "../components/TodoItem.vue";
 import {
   mockTodo,
   mockCompletedTodo,
   createTodoItemProps,
-} from "../../test/mocks/todoMocks";
+} from "../test/mocks/todoMocks";
 
 describe("TodoItem", () => {
   // テスト1: 通常状態のTodoItemが正しくレンダリングされることを確認

@@ -1,7 +1,7 @@
 // TodoInputコンポーネントのテスト
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import TodoInput from "../src/components/TodoInput.vue";
+import TodoInput from "../components/TodoInput.vue";
 
 describe("TodoInput", () => {
   let wrapper: any;

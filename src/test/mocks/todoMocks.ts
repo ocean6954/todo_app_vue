@@ -1,6 +1,6 @@
 // テスト用のモックデータ
 import { vi } from "vitest";
-import type { Todo, FilterCriteria, SortCriteria } from "../../src/types/todo";
+import type { Todo, FilterCriteria, SortCriteria } from "../../types/todo";
 
 // 基本的なTodoモックデータ
 export const mockTodo: Todo = {

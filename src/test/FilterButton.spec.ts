@@ -1,8 +1,8 @@
 // FilterButtonコンポーネントのテスト
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import FilterButton from "../src/components/FilterButton.vue";
-import { FilterCriteria } from "../../src/types/todo";
+import FilterButton from "../components/FilterButton.vue";
+import type { FilterCriteria } from "../types/todo.ts";
 
 describe("FilterButton", () => {
   let wrapper: any;
@@ -58,9 +58,9 @@ describe("FilterButton", () => {
       props: { currentFilter: "all" as FilterCriteria },
     });
     const options = wrapper.findAll("option");
-    expect(options[0].text()).toBe("全て");
-    expect(options[1].text()).toBe("未完了");
-    expect(options[2].text()).toBe("完了済み");
+    expect(options[0]?.text()).toBe("全て");
+    expect(options[1]?.text()).toBe("未完了");
+    expect(options[2]?.text()).toBe("完了済み");
   });
 
   it("select値変更時にchange-filterイベントが発火される", async () => {
