@@ -1,8 +1,6 @@
-// App.vueコンポーネントのテスト（統合テスト）
-
 import { mount } from "@vue/test-utils";
-import Component from "../App.vue";
 import { describe, it, expect } from "vitest";
+import Component from "../App.vue";
 
 describe("App.vue", () => {
   it("コンポーネントが正しくレンダリングされる", () => {

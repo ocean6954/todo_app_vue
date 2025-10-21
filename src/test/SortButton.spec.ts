@@ -1,20 +1,13 @@
-// SortButtonコンポーネントのテスト
-import SortButton from "../components/SortButton.vue";
-
+import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import { beforeEach, describe, it, expect } from "vitest";
+import SortButton from "../components/SortButton.vue";
 import type { SortCriteria } from "../types/todo";
 
 describe("SortButton", () => {
-  let wrapper: any;
-
-  beforeEach(() => {
-    wrapper = mount(SortButton, {
+  it("正しくレンダリングされる", () => {
+    const wrapper = mount(SortButton, {
       props: { currentSort: "oldest" as SortCriteria },
     });
-  });
-
-  it("正しくレンダリングされる", () => {
     expect(wrapper.exists()).toBe(true);
     expect(wrapper.find("select").exists()).toBe(true);
     expect(wrapper.find("label").text()).toBe("ソート:");
@@ -22,12 +15,15 @@ describe("SortButton", () => {
   });
 
   it("ソートがoldestの時", () => {
+    const wrapper = mount(SortButton, {
+      props: { currentSort: "oldest" as SortCriteria },
+    });
     const selectElement = wrapper.find("select").element as HTMLSelectElement;
     expect(selectElement.value).toBe("oldest");
   });
 
   it("ソートがnewestの時", () => {
-    wrapper = mount(SortButton, {
+    const wrapper = mount(SortButton, {
       props: { currentSort: "newest" as SortCriteria },
     });
     const selectElement = wrapper.find("select").element as HTMLSelectElement;
@@ -35,7 +31,7 @@ describe("SortButton", () => {
   });
 
   it("ソートがrandomの時", () => {
-    wrapper = mount(SortButton, {
+    const wrapper = mount(SortButton, {
       props: { currentSort: "random" as SortCriteria },
     });
     const selectElement = wrapper.find("select").element as HTMLSelectElement;
@@ -43,22 +39,21 @@ describe("SortButton", () => {
   });
 
   it("optionの表示文字をテストする", () => {
+    const wrapper = mount(SortButton, {
+      props: { currentSort: "oldest" as SortCriteria },
+    });
     const options = wrapper.findAll("option");
-    expect(options[0].text()).toBe("古い順");
-    expect(options[1].text()).toBe("新しい順");
-    expect(options[2].text()).toBe("ランダム");
+    expect(options[0]!.text()).toBe("古い順");
+    expect(options[1]!.text()).toBe("新しい順");
+    expect(options[2]!.text()).toBe("ランダム");
   });
 });
 
-describe("イベントテスト - 複数パターン", () => {
-  let wrapper: any;
-  beforeEach(() => {
-    wrapper = mount(SortButton, {
+describe("イベントテスト", () => {
+  it("oldest → newestへの変更", async () => {
+    const wrapper = mount(SortButton, {
       props: { currentSort: "oldest" as SortCriteria },
     });
-  });
-
-  it("oldest → newestへの変更", async () => {
     const select = wrapper.find("select");
     await select.setValue("newest");
     expect(wrapper.emitted("change-sort")).toBeTruthy();
@@ -68,7 +63,7 @@ describe("イベントテスト - 複数パターン", () => {
   });
 
   it("newest → oldestへの変更", async () => {
-    wrapper = mount(SortButton, {
+    const wrapper = mount(SortButton, {
       props: { currentSort: "newest" as SortCriteria },
     });
     const select = wrapper.find("select");

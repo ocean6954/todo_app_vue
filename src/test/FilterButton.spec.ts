@@ -1,20 +1,14 @@
-// FilterButtonコンポーネントのテスト
-import { describe, it, expect, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
-import FilterButton from "../components/FilterButton.vue";
+import { describe, it, expect } from "vitest";
 import type { FilterCriteria } from "../types/todo.ts";
+import FilterButton from "../components/FilterButton.vue";
 
 describe("FilterButton", () => {
-  let wrapper: any;
-
-  beforeEach(() => {
-    wrapper = mount(FilterButton, {
-      props: { currentFilter: "all" as FilterCriteria },
-    });
-  });
-
   // テスト1: コンポーネントが正しくレンダリングされることを確認
   it("正しくレンダリングされる", () => {
+    const wrapper = mount(FilterButton, {
+      props: { currentFilter: "all" as FilterCriteria },
+    });
     expect(wrapper.exists()).toBe(true);
     expect(wrapper.find("label").exists()).toBe(true);
     expect(wrapper.find("label").text()).toBe("表示フィルター:");
@@ -24,6 +18,9 @@ describe("FilterButton", () => {
 
   // テスト2: 初期選択値が正しいことを確認
   it("初期選択値が正しい", () => {
+    const wrapper = mount(FilterButton, {
+      props: { currentFilter: "all" as FilterCriteria },
+    });
     expect(wrapper.find("select").element.value).toBe("all");
   });
 
@@ -33,7 +30,6 @@ describe("FilterButton", () => {
       props: { currentFilter: "active" as FilterCriteria },
     });
     const selectElement = wrapper.find("select").element as HTMLSelectElement;
-    expect(selectElement.value).toBe("active");
     expect(selectElement.value).toBe("active");
   });
 
@@ -64,20 +60,15 @@ describe("FilterButton", () => {
   });
 
   it("select値変更時にchange-filterイベントが発火される", async () => {
-    // 1. コンポーネントをマウント（初期値: "all"）
     const wrapper = mount(FilterButton, {
       props: { currentFilter: "all" as FilterCriteria },
     });
-    // 2. select要素を取得
     const select = wrapper.find("select");
 
-    // 3. "active"に変更
     await select.setValue("active");
 
-    // 4. イベント発火を確認
     expect(wrapper.emitted("change-filter")).toBeTruthy();
 
-    // 5. 送信された値を確認（配列形式で確認）
     const emittedEvents = wrapper.emitted("change-filter");
     expect(emittedEvents![0]).toEqual(["active"]);
   });

@@ -1,9 +1,8 @@
-// TodoListコンポーネントのテスト
-import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
+import { describe, it, expect } from "vitest";
+import { mockTodoList, mockEmptyTodoList } from "./mocks/todoMocks.ts";
 import TodoList from "../components/TodoList.vue";
 import TodoItem from "../components/TodoItem.vue";
-import { mockTodoList, mockEmptyTodoList } from "./mocks/todoMocks.ts";
 
 describe("TodoList", () => {
   // テスト1: コンポーネントが正しくレンダリングされることを確認
