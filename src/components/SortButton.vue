@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import type { SortCriteria } from "../types/todo";
-const props = defineProps<{
-  currentSort: SortCriteria;
-}>();
 
 const emit = defineEmits<{
   (e: "change-sort", criteria: SortCriteria): void;

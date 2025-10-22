@@ -99,11 +99,8 @@ const changeSort = (sort: "newest" | "oldest" | "random") => {
 
     <!-- フィルターとソートを横並びに -->
     <div class="controls-container">
-      <FilterButton
-        :current-filter="currentFilter"
-        @change-filter="changeFilter"
-      />
-      <SortButton :current-sort="currentSort" @change-sort="changeSort" />
+      <FilterButton v-model="currentFilter" @change-filter="changeFilter" />
+      <SortButton v-model="currentSort" @change-sort="changeSort" />
     </div>
     <TodoList
       :todos="sortedTodos"

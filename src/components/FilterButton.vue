@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
 import type { FilterCriteria } from "../types/todo";
-const props = defineProps<{
-  currentFilter: FilterCriteria;
-}>();
 
 const emit = defineEmits<{
   (e: "change-filter", criteria: FilterCriteria): void;
@@ -32,7 +29,7 @@ watch(filterValue, (newValue) => {
 <template>
   <div class="filter-section">
     <label for="filter-select">表示フィルター:</label>
-    <select id="filter-select" v-model="filterValue" class="filter-dropdown">
+    <select id="filter-select" v-model="currentFilter" class="filter-dropdown">
       <option value="all">全て</option>
       <option value="active">未完了</option>
       <option value="completed">完了済み</option>
