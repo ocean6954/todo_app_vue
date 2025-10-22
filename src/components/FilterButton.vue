@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import type { FilterCriteria } from "../types/todo";
 const props = defineProps<{
   currentFilter: FilterCriteria;
@@ -9,7 +9,20 @@ const emit = defineEmits<{
   (e: "change-filter", criteria: FilterCriteria): void;
 }>();
 
-const filterValue = ref<FilterCriteria>(props.currentFilter);
+const validFilters: FilterCriteria[] = ["all", "active", "completed"];
+
+const initialFilter = computed(() =>
+  validFilters.includes(props.currentFilter) ? props.currentFilter : "all"
+);
+
+const filterValue = ref<FilterCriteria>(initialFilter.value);
+
+watch(
+  () => props.currentFilter,
+  (newFilter) => {
+    filterValue.value = validFilters.includes(newFilter) ? newFilter : "all";
+  }
+);
 
 watch(filterValue, (newValue) => {
   emit("change-filter", newValue);

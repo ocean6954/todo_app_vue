@@ -7,4 +7,4 @@ export interface Todo {
 }
 
 export type FilterCriteria = "all" | "active" | "completed";
-export type SortCriteria = "newest" | "oldest" | "random";
+export type SortCriteria = "oldest" | "newest" | "random";

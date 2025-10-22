@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import type { SortCriteria } from "../types/todo";
 const props = defineProps<{
   currentSort: SortCriteria;
@@ -9,7 +9,20 @@ const emit = defineEmits<{
   (e: "change-sort", criteria: SortCriteria): void;
 }>();
 
-const sortValue = ref<SortCriteria>(props.currentSort);
+const validSorts: SortCriteria[] = ["oldest", "newest", "random"];
+
+const initialSort = computed(() =>
+  validSorts.includes(props.currentSort) ? props.currentSort : "oldest"
+);
+
+const sortValue = ref<SortCriteria>(initialSort.value);
+
+watch(
+  () => props.currentSort,
+  (newSort) => {
+    sortValue.value = validSorts.includes(newSort) ? newSort : "oldest";
+  }
+);
 
 watch(sortValue, (newValue) => {
   emit("change-sort", newValue);
