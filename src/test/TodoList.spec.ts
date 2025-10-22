@@ -6,7 +6,7 @@ import TodoItem from "../components/TodoItem.vue";
 
 describe("TodoList", () => {
   // テスト1: コンポーネントが正しくレンダリングされることを確認
-  it("正しくレンダリングされる", () => {
+  it("コンポーネントとul要素が存在する", () => {
     const wrapper = mount(TodoList, {
       props: { todos: mockTodoList },
     });
@@ -24,7 +24,7 @@ describe("TodoList", () => {
   });
 
   // テスト3: 空のリストでも正しくレンダリングされる
-  it("空のtodosリストでも正しくレンダリングされる", () => {
+  it("空のtodosリストでもコンポーネントが表示され、TodoItem要素が0個である", () => {
     const wrapper = mount(TodoList, {
       props: { todos: mockEmptyTodoList },
     });
@@ -34,7 +34,7 @@ describe("TodoList", () => {
   });
 
   //テスト4: TodoItemの削除
-  it("remove-todoイベントが正しく中継される", async () => {
+  it("remove-todoイベントが適切な引数で親コンポーネントに中継される", async () => {
     const targetIndex = Math.floor(Math.random() * mockTodoList.length);
     const wrapper = mount(TodoList, {
       props: { todos: mockTodoList },
@@ -53,7 +53,7 @@ describe("TodoList", () => {
   });
 
   //テスト5: TodoItemの編集
-  it("edit-todoイベントが正しく中継される", async () => {
+  it("edit-todoイベントが適切な引数で親コンポーネントに中継される", async () => {
     const targetIndex = Math.floor(Math.random() * mockTodoList.length);
     const wrapper = mount(TodoList, {
       props: { todos: mockTodoList },
@@ -75,7 +75,7 @@ describe("TodoList", () => {
   });
 
   //テスト6: TodoItemの完了
-  it("complete-todoイベントが正しく中継される", async () => {
+  it("complete-todoイベントが適切な引数で親コンポーネントに中継される", async () => {
     const targetIndex = Math.floor(Math.random() * mockTodoList.length);
     const wrapper = mount(TodoList, {
       props: { todos: mockTodoList },
