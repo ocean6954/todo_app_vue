@@ -16,7 +16,7 @@ describe("SortButton", () => {
         expect(wrapper.findAll("option").length).toBe(3);
       });
 
-      it("option要素に正しいラベルが表示される", () => {
+      it("option要素に予め設定してあるラベルが表示される", () => {
         const wrapper = mount(SortButton, {
           props: { currentSort: "oldest" as SortCriteria },
         });
